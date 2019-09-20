@@ -16,7 +16,7 @@ const CollapseNavigatorContext = React.createContext();
 
 export const CollapseNavigatorProvider = ({children}) => {
     /* TODO: comment here */
-    const [collapseMenuData, setCollapseMenu] = useState([0,0,0]);
+    const [collapseMenuData, setCollapseMenu] = useState([0,0,0,0,0,0,0,0,0,0,0]);
 
     /* flips the bit at location index by using XOR */
     const toggleCollapse = (index) =>{
