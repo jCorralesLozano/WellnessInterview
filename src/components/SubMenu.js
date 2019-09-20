@@ -1,24 +1,59 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 /* withNavigation allows this component access to the 'navigation' prop */
 import {withNavigation} from 'react-navigation'; 
+import useResults from '../hooks/useResults.js';
 
 /* note that navigation is not sent as a prop in the SideMenu parent
 component, it is available solely because we are export this component
 using withNavigation() */
-const SubMenu = ({value, screen, navigation}) => {
-    // console.log(navigation);
+const SubMenu = ({navigation, value, screen, main}) => {
+    /* only the results array is used */
+    const [fetchQuestion, results, errorMessage] = useResults();
+
+    const filterSubdomain = (main, results) => {
+        let set = new Set(); // placeholder for the subdomains 
+        for(let j = 0; j < results.length; j++){
+            if(main == results[j].MAIN){
+                set.add(results[j].SUBDOMAIN);
+            }
+        }
+        return setToArray(set);
+    };
+
     if(value == 0){
         return null;
     }else{
         return(
-            <TouchableOpacity onPress={() => navigation.navigate(screen)}>
-                <View style={styles.subMenuContainer}>
-                    <Text style={styles.subMenu}>Question Screen</Text>
-                </View>
-            </TouchableOpacity>
+            <FlatList
+                data={filterSubdomain(main, results)}
+                keyExtractor={() => String(Math.floor(Math.random() * 999999))}
+                renderItem={({item}) => {
+                    return(
+                        <TouchableOpacity onPress={() => navigation.navigate(screen)}>
+                            <View style={styles.subMenuContainer}>
+                                <Text style={styles.subMenu}>{item}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    );
+                }}
+            />
         );        
     }
+};
+
+/* converts a set to an array, this is important because the data
+will be used in a FlatList component, which cannot work with sets */
+const setToArray = (set) => {
+    /* iterator used to loop through the set container */
+    var it = set.values();
+    
+    /* new array that will hold the elements from set*/
+    var array = [];
+    for(let i = 0; i < set.size; i++){
+        array.push(it.next().value);
+    }    
+    return array;
 };
 
 const styles = StyleSheet.create({

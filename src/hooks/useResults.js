@@ -5,6 +5,7 @@ export default () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
 
+    /* makes the network request to pull question data */
     const fetchQuestion = async () => {
         try{
             const response = await brainaging.get('fullassessment/test.json');

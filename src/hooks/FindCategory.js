@@ -9,12 +9,12 @@ export default (results, type) =>{
             for(let i = 0; i < results.length; i++){
                 set.add(results[i].SUBDOMAIN);
             }
+            // console.log(set);
             return setToArray(set);
         case 'MAIN':
             for(let i = 0; i < results.length; i++){
                 set.add(results[i].MAIN);
             }
-            console.log(set);
             return setToArray(set);
         default:
             console.log('default case hit');

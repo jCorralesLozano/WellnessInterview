@@ -7,11 +7,17 @@ import FindCategory from '../hooks/FindCategory';
 import useResults from '../hooks/useResults.js';
 
 const SideMenu = () => {
+    /* receives a data array which indicates if a submenu category is collapsed */
     const {data, toggleCollapse} = useContext(CollapseNavigatorContext);
+    
     /* only the results array is used */
     const [fetchQuestion, results, errorMessage] = useResults();
+    
     /* results is used as an input to find unique values of the MAIN category */
     const mainCategory = FindCategory(results, "MAIN");
+
+    /* results is used as an input to find unique values of the SUBDOMAIN category */
+    const subdomainCategory = FindCategory(results, "SUBDOMAIN");
     
     var index = 0;
 
@@ -31,6 +37,7 @@ const SideMenu = () => {
                                     value={data[index]} 
                                     style={styles.subdomainContainer}
                                     screen='Question'
+                                    main={item}
                                 />
                             </View>
                         );
