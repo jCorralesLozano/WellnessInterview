@@ -3,14 +3,16 @@ import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 /* withNavigation allows this component access to the 'navigation' prop */
 import {withNavigation} from 'react-navigation'; 
 import useResults from '../hooks/useResults.js';
+// import {Navigate} from '../hooks/HelperFunctions';
 
 /* note that navigation is not sent as a prop in the SideMenu parent
-component, it is available solely because we are export this component
+component, it is available solely because we export this component
 using withNavigation() */
 const SubMenu = ({navigation, value, screen, main}) => {
     /* only the results array is used */
     const [fetchQuestion, results, errorMessage] = useResults();
 
+    /* return a set that contains all the SUBDOMAINs for a given MAIN */
     const filterSubdomain = (main, results) => {
         let set = new Set(); // placeholder for the subdomains 
         for(let j = 0; j < results.length; j++){
@@ -30,7 +32,7 @@ const SubMenu = ({navigation, value, screen, main}) => {
                 keyExtractor={() => String(Math.floor(Math.random() * 999999))}
                 renderItem={({item}) => {
                     return(
-                        <TouchableOpacity onPress={() => navigation.navigate(screen)}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Question', {subdomain: item})}>
                             <View style={styles.subMenuContainer}>
                                 <Text style={styles.subMenu}>{item}</Text>
                             </View>

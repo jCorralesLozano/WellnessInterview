@@ -2,13 +2,13 @@ import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import Question from './Question';
 
-const QuestionList = ({results}) => {
+const QuestionList = ({results, questionList}) => {
     return(
         <View>
             <Text>->Response from url: https://olfactory.brainaging.uci.edu/acct-ad/fullassessment/test.json</Text>
             <Text>->Results Length:{results.length}</Text>
             <FlatList
-                data={results}
+                data={questionList}
                 keyExtractor={() => String(Math.floor(Math.random() * 99999))}
                 renderItem={({item}) => {
                     return(
