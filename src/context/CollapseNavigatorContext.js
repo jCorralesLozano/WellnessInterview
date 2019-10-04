@@ -22,8 +22,8 @@ export const CollapseNavigatorProvider = ({children}) => {
     const toggleCollapse = (index) =>{
         collapseMenuData[index] = collapseMenuData[index] ^ 1;
         setCollapseMenu([...collapseMenuData]);
-        console.log(`index: ${index}`);
-        console.log(collapseMenuData);
+        // console.log(`index: ${index}`);
+        // console.log(collapseMenuData);
     };
 
     /* value propr will pass the collapseMenuData array and the

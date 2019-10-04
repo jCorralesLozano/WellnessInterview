@@ -7,6 +7,7 @@ import MenuScreen from './src/screens/MenuScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import HomeButton from './src/components/HomeButton'
 import {CollapseNavigatorProvider} from './src/context/CollapseNavigatorContext';
+import {Provider as ResponseProvider} from './src/context/ResponseContext';
 import SideMenu from './src/components/SideMenu';
 
 const navigator = createStackNavigator(
@@ -49,8 +50,10 @@ const DrawerNavigator = createDrawerNavigator({
 const App = createAppContainer(DrawerNavigator);
 export default () => {
     return(
-        <CollapseNavigatorProvider>
-            <App />
-        </CollapseNavigatorProvider>
+        <ResponseProvider>
+            <CollapseNavigatorProvider>
+                <App />
+            </CollapseNavigatorProvider>
+        </ResponseProvider>
     );
 };

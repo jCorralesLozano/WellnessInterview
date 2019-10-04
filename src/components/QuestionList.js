@@ -1,34 +1,42 @@
-import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import Question from './Question';
+import React, {useState} from 'react';
+import {View, Text, FlatList, StyleSheet, Button, ScrollView} from 'react-native';
+import Answer from './Answer';
+import {getQuestionIndex} from '../hooks/HelperFunctions';
 
 const QuestionList = ({results, questionList}) => {
-    return(
-        <View>
-            <Text>->Response from url: https://olfactory.brainaging.uci.edu/acct-ad/fullassessment/test.json</Text>
-            <Text>->Results Length:{results.length}</Text>
-            <FlatList
-                data={questionList}
-                keyExtractor={() => String(Math.floor(Math.random() * 99999))}
-                renderItem={({item}) => {
-                    return(
-                        <View style={styles.question}>
-                            <Question 
-                                comments={item.COMMENTS}
-                                component={item.COMPONENT}
-                                main={item.MAIN}
-                                options={item.OPTIONS}
-                                prompts={item.PROMPTS}
-                                question={item.QUESTION}
-                                subdomain={item.SUBDOMAIN}
-                            />
-                        </View>
-                    );
-                }}
+    /* state variable to keep track of which question from 
+    a given subdomain should be displayed to the user */
+    const [questionIndex, setQuestionIndex] = useState(0);
 
-            />
-        </View>
-    );
+    /* check to ensure question list is not empty when React first
+    renders the screen*/
+    if(questionList.length > 0 ){
+        return(
+            <ScrollView>
+                <Text>Subdomain: {questionList[questionIndex].SUBDOMAIN}</Text>
+                <Text>Comments: {questionList[questionIndex].COMMENTS}</Text>
+                <Text>Component: {questionList[questionIndex].COMPONENT}</Text>
+                <Text>Main: {questionList[questionIndex].MAIN}</Text>
+                <Text>Prompts: {questionList[questionIndex].PROMPTS}</Text>
+                <Text>Question: {questionList[questionIndex].QUESTION}</Text>
+                <Text>State Value: {questionIndex}</Text>
+                <Button
+                    title="Next"
+                    onPress={() => setQuestionIndex(questionIndex + 1)}
+                />
+                <Button
+                    title="Previous"
+                    onPress={() => setQuestionIndex(questionIndex - 1)}
+                />
+                <Answer 
+                    optionList={questionList[questionIndex].OPTIONS}
+                    contextIndex={getQuestionIndex(results, questionList[questionIndex].QUESTION)}
+                />
+            </ScrollView>
+        );
+    }else{
+        return null;
+    }
 };
 
 const styles = StyleSheet.create({
