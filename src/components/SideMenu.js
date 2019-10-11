@@ -6,7 +6,9 @@ import SubMenu from './SubMenu';
 import FindCategory from '../hooks/FindCategory';
 import useResults from '../hooks/useResults.js';
 
-const SideMenu = () => {
+const SideMenu = ({navigation}) => {
+    // console.log(navigation);
+
     /* receives a data array which indicates if a submenu category is collapsed */
     const {data, toggleCollapse} = useContext(CollapseNavigatorContext);
     
@@ -34,10 +36,12 @@ const SideMenu = () => {
                                     <Text style={styles.subdomainContainer}>{item}</Text>
                                 </TouchableOpacity>
                                 <SubMenu 
+                                    navigation={navigation}
                                     value={data[index]} 
                                     style={styles.subdomainContainer}
                                     screen='Question'
                                     main={item}
+                                    results={results}
                                 />
                             </View>
                         );

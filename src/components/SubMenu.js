@@ -1,17 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 /* withNavigation allows this component access to the 'navigation' prop */
-import {withNavigation} from 'react-navigation'; 
+// import {withNavigation} from 'react-navigation'; 
 import useResults from '../hooks/useResults.js';
 // import {Navigate} from '../hooks/HelperFunctions';
 
 /* note that navigation is not sent as a prop in the SideMenu parent
 component, it is available solely because we export this component
 using withNavigation() */
-const SubMenu = ({navigation, value, screen, main}) => {
-    /* only the results array is used */
-    const [fetchQuestion, results, errorMessage] = useResults();
-
+const SubMenu = ({navigation, value, screen, main, results}) => {
     /* return a set that contains all the SUBDOMAINs for a given MAIN */
     const filterSubdomain = (main, results) => {
         let set = new Set(); // placeholder for the subdomains 
@@ -23,9 +20,9 @@ const SubMenu = ({navigation, value, screen, main}) => {
         return setToArray(set);
     };
 
-    if(value == 0){
-        return null;
-    }else{
+    /* Check to see if the drawer should be toggled and that the results prop is an array.
+    Not sure why but for some instances when rendering, results is null and the program crashes */
+    if(value == 1 && Array.isArray(results)){
         return(
             <FlatList
                 data={filterSubdomain(main, results)}
@@ -41,6 +38,8 @@ const SubMenu = ({navigation, value, screen, main}) => {
                 }}
             />
         );        
+    }else{
+        return null;
     }
 };
 
@@ -72,4 +71,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(SubMenu);
+export default SubMenu;
